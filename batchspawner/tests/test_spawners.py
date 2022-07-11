@@ -558,6 +558,7 @@ async def test_condor(db, event_loop):
         "req_nprocs": "5",
         "req_memory": "5678",
         "req_options": "some_option_asdf",
+        "connect_to_job_cmd": "",
     }
     batch_script_re_list = [
         re.compile(r"exec batchspawner-singleuser singleuser_command"),
