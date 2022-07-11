@@ -585,6 +585,11 @@ class BatchSpawnerBase(Spawner):
         if self.connect_to_job_cmd:
             await self.connect_to_job()
 
+        # Port and ip can be changed in connect_to_job, push out to jupyterhub.
+        if self.server:
+            self.server.port = self.port
+            self.server.ip = self.ip
+
         self.db.commit()
         self.log.info(
             "Notebook server job {} started at {}:{}".format(
