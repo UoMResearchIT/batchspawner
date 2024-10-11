@@ -884,6 +884,13 @@ echo "jupyterhub-singleuser ended gracefully"
             raise e
         return id
 
+    def state_gethost(self):
+        """Returns localhost if connect_to_job is used, as this forwards the singleuser server port from the spawned job"""
+        if self.connect_to_job_cmd:
+            return "localhost"
+        else:
+            return super(SlurmSpawner,self).state_gethost()
+
 
 class MultiSlurmSpawner(SlurmSpawner):
     """When slurm has been compiled with --enable-multiple-slurmd, the
