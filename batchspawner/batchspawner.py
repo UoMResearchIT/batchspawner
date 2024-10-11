@@ -243,8 +243,7 @@ class BatchSpawnerBase(Spawner):
             subvars['port'] = self.port
         else:
             subvars['port'] = self.port
-        cmd = ' '.join((format_template(self.exec_prefix, **subvars),
-                        format_template(self.connect_to_job_cmd, **subvars)))
+        cmd = format_template(self.connect_to_job_cmd, **subvars)
         await self.run_background_command(cmd)
 
     async def run_command(self, cmd, input=None, env=None):
