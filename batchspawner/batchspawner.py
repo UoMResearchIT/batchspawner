@@ -416,10 +416,10 @@ class BatchSpawnerBase(Spawner):
             self.job_status = await self.run_command(cmd)
         except RuntimeError as e:
             # e.args[0] is stderr from the process
-            self.job_status = e.args[0]
+            self.job_status = "ERROR: " + e.args[0]
         except Exception:
             self.log.error("Error querying job " + self.job_id)
-            self.job_status = ""
+            self.job_status = "ERROR"
 
         if self.state_isrunning():
             return JobStatus.RUNNING
@@ -867,7 +867,7 @@ echo "jupyterhub-singleuser ended gracefully"
     state_pending_re = Unicode(r"^(?:PENDING|CONFIGURING)").tag(config=True)
     state_running_re = Unicode(r"^(?:RUNNING|COMPLETING)").tag(config=True)
     state_unknown_re = Unicode(
-        r"^slurm_load_jobs error: (?:Socket timed out on send/recv|Unable to contact slurm controller)"
+        r"^ERROR|^slurm_load_jobs error: (?:Socket timed out on send/recv|Unable to contact slurm controller)"
     ).tag(config=True)
     state_exechost_re = Unicode(r"\s+((?:[\w_-]+\.?)+)$").tag(config=True)
 
